@@ -145,8 +145,8 @@ static void canopen_tx_retry(struct k_work *item)
 			frame.flags |= (buffer->rtr ? CAN_FRAME_RTR : 0);
 			memcpy(frame.data, buffer->data, buffer->DLC);
 
-			err = can_send(CANmodule->dev, &frame, K_USEC(320), canopen_tx_callback,
-				       CANmodule);
+			err = can_send(CANmodule->dev, &frame, K_NO_WAIT,
+				       canopen_tx_callback, CANmodule);
 			if (err == -EAGAIN) {
 				break;
 			} else if (err != 0) {
@@ -386,7 +386,7 @@ CO_ReturnError_t CO_CANsend(CO_CANmodule_t *CANmodule, CO_CANtx_t *buffer)
 	frame.flags = (buffer->rtr ? CAN_FRAME_RTR : 0);
 	memcpy(frame.data, buffer->data, buffer->DLC);
 
-	err = can_send(CANmodule->dev, &frame, K_USEC(320), canopen_tx_callback,
+	err = can_send(CANmodule->dev, &frame, K_NO_WAIT, canopen_tx_callback,
 		       CANmodule);
 	if (err == -EAGAIN) {
 		buffer->bufferFull = true;
