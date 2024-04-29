@@ -24,7 +24,7 @@ manifest:
     - name: babblesim
       url-base: https://github.com/BabbleSim
     - name: downstream
-      url-base: https://github.com/yuhua0731
+      url-base: https://github.com/ruantu
 
   group-filter: [-babblesim]
 
@@ -116,7 +116,7 @@ manifest:
         - babblesim
     - name: canopennode
       remote: downstream
-      revision: 57c10606c7cc77f2edb3eaa2c988e8f8cef2f0f6
+      revision: 5983dd01f89c2d592d9ad3162086c523138e52f4
       path: modules/lib/canopennode
     - name: chre
       revision: b7955c27e50485b7dafdc3888d7d6afdc2ac6d96

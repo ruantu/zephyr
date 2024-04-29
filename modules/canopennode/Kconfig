@@ -46,68 +46,18 @@ config CANOPENNODE_TX_WORKQUEUE_PRIORITY
 	help
 	  Priority level of the internal CANopen transmit workqueue.
 
-config CANOPENNODE_STORAGE
-	bool "CANopen object dictionary storage"
-	depends on SETTINGS
+config CANOPENNODE_MULTIPLE_OD
+	bool "CANopen multiple object dictionaries"
 	default y
 	help
-	  Enable support for storing the CANopen object dictionary to
-	  non-volatile storage.
+	  Enable support for multiple object dictionaries.
 
-config CANOPENNODE_STORAGE_HANDLER_ERASES_EEPROM
-	bool "Erase CANopen object dictionary EEPROM entries in storage handler"
-	depends on CANOPENNODE_STORAGE
+config CANOPENNODE_MULTIPLE_OD_MAX_COUNT
+	int "Maximum number of CANopen object dictionaries"
+	default 1
+	range 1 4
+	depends on CANOPENNODE_MULTIPLE_OD
 	help
-	  Erase CANopen object dictionary EEPROM entries upon write to
-	  object dictionary index 0x1011 subindex 1.
-
-config CANOPENNODE_LEDS
-	bool "CANopen LED indicators"
-	default y
-	help
-	  Enable support for CANopen LED indicators according to the CiA
-	  303-3 specification.
-
-config CANOPENNODE_LEDS_BICOLOR
-	bool "CANopen bicolor LED indicator"
-	depends on CANOPENNODE_LEDS
-	help
-	  Handle CANopen LEDs as one bicolor LED, favoring the red LED
-	  over the green LED in accordance with the CiA 303-3
-	  specification.
-
-config CANOPENNODE_SYNC_THREAD
-	bool "CANopen SYNC thread"
-	default y
-	help
-	  Enable internal thread for processing CANopen SYNC RPDOs and
-	  TPDOs. Application layer must take care of SYNC RPDO and
-	  TPDO processing on its own if this is disabled.
-
-config CANOPENNODE_SYNC_THREAD_STACK_SIZE
-	int "Stack size for the CANopen SYNC thread"
-	depends on CANOPENNODE_SYNC_THREAD
-	default 512
-	help
-	  Size of the stack used for the internal thread which
-	  processes CANopen SYNC RPDOs and TPDOs.
-
-config CANOPENNODE_SYNC_THREAD_PRIORITY
-	int "Priority for CANopen SYNC thread"
-	depends on CANOPENNODE_SYNC_THREAD
-	default 0 if !COOP_ENABLED
-	default -5
-	help
-	  Priority level of the internal thread which processes
-	  CANopen SYNC RPDOs and TPDOs.
-
-config CANOPENNODE_PROGRAM_DOWNLOAD
-	bool "CANopen program download"
-	depends on BOOTLOADER_MCUBOOT
-	select IMG_MANAGER
-	default y
-	help
-	  Enable support for program download over CANopen according
-	  to the CiA 302-3 (draft) specification.
+	  Maximum number of object dictionaries supported.
 
 endif # CANOPENNODE
