@@ -701,24 +701,8 @@ static int mcux_flexcan_send(const struct device *dev,
 	status_t status = kStatus_Fail;
 	uint8_t max_dlc = CAN_MAX_DLC;
 	int alloc;
-	uint32_t iflag2 = config->base->IFLAG2;
-	uint32_t imask2 = config->base->IMASK2;
-	static int exception_cnt = 0;
 
 	__ASSERT_NO_MSG(callback != NULL);
-        
-    // 当出现寄存器值异常时，进行记录并修正
-	if ((iflag2 & 0x80000000) && !(imask2 & 0x80000000)) {
-		++exception_cnt;
-		LOG_ERR("CAN Send Exception, IMASK2(%x) IFLAG2(%x), count(%d)", imask2, iflag2,
-			exception_cnt);
-		config->base->IMASK2 |= 0x80000000;
-	}
-
-	if (frame->dlc > CAN_MAX_DLC) {
-		LOG_ERR("DLC of %d exceeds maximum (%d)", frame->dlc, CAN_MAX_DLC);
-		return -EINVAL;
-	}
 
 	if (UTIL_AND(IS_ENABLED(CONFIG_CAN_MCUX_FLEXCAN_FD), data->fd_mode)) {
 		if ((frame->flags & ~(CAN_FRAME_IDE | CAN_FRAME_RTR |
